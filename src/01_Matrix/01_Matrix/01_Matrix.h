@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 
 template <typename ValType>
@@ -24,8 +23,6 @@ public:
 	ValType operator*(const TVector&) const;
 	ValType& operator[](int);
 	const ValType& operator[](int) const;
-	ValType& GetValue(int index);
-	const ValType& GetValue(int index) const;
 	ValType length() const;
 	int Size() const;
 	int StartIndex() const;
@@ -33,7 +30,7 @@ public:
 
 	friend std::ostream & operator<<(std::ostream & out, const TVector<ValType>& tmp)
 	{
-		if (tmp.size == 0) throw "Wrong size of vector";
+		if (tmp.size <= 0) throw "Wrong size of vector";
 		for (int i = 0; i < tmp.size; i++)
 		{
 			out << " " << tmp.elems[i] << " ";
@@ -43,7 +40,7 @@ public:
 
 	friend std::istream& operator>>(std::istream& in, const TVector& tmp)
 	{
-		if (tmp.size <= 0) throw "Wrong size of vector";
+		if (tmp.size <= 0) throw "Wrong size of vector \n";
 		for (int i = 0; i < tmp.size; i++)
 		{
 			std::cout << "Enter " << i << " element: ";
@@ -81,7 +78,7 @@ TVector<ValType>::~TVector()
 template<typename ValType>
 bool TVector<ValType>::operator==(const TVector& tmp) const
 {
-	if (size != tmp.size) throw "Different sizes of vectors";
+	if (size != tmp.size) return false;
 	for (int i = 0; i < size; i++)
 	{
 		if (tmp.elems[i] != elems[i])
@@ -189,22 +186,10 @@ ValType & TVector<ValType>::operator[](int index)
 }
 
 template<typename ValType>
-const ValType & TVector<ValType>::operator[](int index) const
+const ValType& TVector<ValType>::operator[](int index) const
 {
 	if ((index - startIndex) >= size) throw "Out of range";
 	return elems[index - startIndex];
-}
-
-template<typename ValType>
-ValType& TVector<ValType>::GetValue(int index)
-{
-	return elems[index];
-}
-
-template<typename ValType>
-const ValType& TVector<ValType>::GetValue(int index) const
-{
-	return elems[index];
 }
 
 template<typename ValType>
@@ -263,8 +248,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, const TMatrix& tmp)
 	{
-		if (tmp.size == 0)
-			throw "Inccorect dimention";
+		if (tmp.size <= 0) throw "Wrong dimention";
 		for (int i = 0; i < tmp.size; i++)
 		{
 			out << " " << tmp.elems[i] << " " << "\n";
@@ -274,8 +258,7 @@ public:
 
 	friend std::istream& operator>>(std::istream& in, TMatrix& tmp)
 	{
-		if (tmp.size <= 0)
-			throw "Inccorect dimention";
+		if (tmp.size <= 0) throw "Wrong dimention";
 		for (int i = 0; i < tmp.size; i++)
 		{
 			std::cout << "Enter " << i << " element: ";
@@ -286,7 +269,7 @@ public:
 };
 
 template<typename ValType>
-TMatrix<ValType>::TMatrix(int _size) :TVector<TVector<ValType>>(_size)
+TMatrix<ValType>::TMatrix(int _size) : TVector<TVector<ValType>>(_size)
 {
 	for (int i = 0; i < _size; i++)
 		this->elems[i] = TVector<ValType>(_size - i, i);
@@ -302,21 +285,9 @@ TMatrix<ValType>::TMatrix(const TMatrix<ValType>& tmp)
 }
 
 template<typename ValType>
-TMatrix<ValType>::TMatrix(const TVector<TVector<ValType>>& tmp)
+TMatrix<ValType>::TMatrix(const TVector<TVector<ValType>>& tmp) : TVector<TVector<ValType>>(tmp)
 {
-	for (int i = 0; i < tmp.Size(); i++)
-	{
-		if (tmp[i].Size() != (tmp.Size() - i))
-			throw "Wrong vector size";
-	}
-	this->size = tmp.Size();
-	this->elems = new TVector<ValType>[this->size];
-	for (int i = 0; i < this->size; i++)
-	{
-		this->elems[i] = TVector<ValType>(this->size - i, i);
-		for (int j = 0; j < this->size - i; j++)
-			this->elems[i].GetValue(j) = tmp.GetValue(i).GetValue(j);
-	}
+
 }
 
 template<typename ValType>
@@ -327,8 +298,7 @@ TMatrix<ValType>::~TMatrix()
 template<typename ValType>
 bool TMatrix<ValType>::operator==(const TMatrix& tmp) const
 {
-	if (tmp.size != this->size)
-		throw "Different sizes";
+	if (tmp.size != this->size) throw "Different sizes of matrixes";
 	for (int i = 0; i < this->size; i++)
 	{
 		if (this->elems[i] != tmp.elems[i])
