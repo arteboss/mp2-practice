@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 
 template <typename ValType>
 class TVector
@@ -31,9 +32,13 @@ public:
 	friend std::ostream & operator<<(std::ostream& out, const TVector<ValType>& tmp)
 	{
 		if (tmp.size <= 0) throw "Wrong size of vector";
-		for (int i = 0; i < tmp.size; i++)
+		for (int i = 0; i < tmp.startIndex; i++)
 		{
-			out << " " << tmp.elems[i] << " ";
+			out << std::setw(5) << std::setprecision(2) << ValType(0) << " ";
+		}
+		for (int j = 0; j < tmp.size; j++)
+		{
+			out << std::setw(5) << std::setprecision(2) << tmp.elems[j] << " ";
 		}
 		return out;
 	}
@@ -244,14 +249,15 @@ public:
 	friend std::ostream& operator<<(std::ostream& out, const TMatrix& tmp)
 	{
 		if (tmp.size <= 0) throw "Wrong dimention";
-		for (int i = 0; i < tmp.size; i++)
+		for (int i = 0; i < tmp.size - 1; i++)
 		{
-			out << " " << tmp.elems[i] << " " << "\n";
+			out << tmp.elems[i] << "\n";
 		}
+		out << tmp.elems[tmp.size - 1];
 		return out;
 	}
 
-	friend std::istream& operator>>(std::istream& in, TMatrix& tmp)
+	friend std::istream& operator>>(std::istream& in, TMatrix& tmp) 
 	{
 		if (tmp.size <= 0) throw "Wrong dimention";
 		for (int i = 0; i < tmp.size; i++)
@@ -271,12 +277,12 @@ TMatrix<ValType>::TMatrix(int _size) : TVector<TVector<ValType>>(_size)
 }
 
 template<typename ValType>
-TMatrix<ValType>::TMatrix(const TMatrix<ValType>& tmp)
+TMatrix<ValType>::TMatrix(const TMatrix<ValType>& tmp) : TVector<TVector<ValType>>(tmp)
 {
-	this->size = tmp.size;
+	/*this->size = tmp.size;
 	this->elems = new TVector<ValType>[this->size];
 	for (int i = 0; i < this->size; i++)
-		this->elems[i] = tmp.elems[i];
+		this->elems[i] = tmp.elems[i];*/
 }
 
 template<typename ValType>

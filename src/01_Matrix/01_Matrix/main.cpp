@@ -184,7 +184,6 @@ int main()
 	{
 		MatrixVectorofVectors = VectorOfVectors;
 		std::cout << "Success" << std::endl;
-		std::cout << "Matrix5" << std::endl << MatrixVectorofVectors << std::endl;
 	}
 	catch (const char* k)
 	{
