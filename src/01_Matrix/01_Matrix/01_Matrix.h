@@ -40,7 +40,7 @@ public:
 
 	friend std::istream& operator>>(std::istream& in, const TVector& tmp)
 	{
-		if (tmp.size <= 0) throw "Wrong size of vector \n";
+		if (tmp.size <= 0) throw "Wrong size of vector";
 		for (int i = 0; i < tmp.size; i++)
 		{
 			std::cout << "Enter " << i << " element: ";
@@ -78,7 +78,7 @@ TVector<ValType>::~TVector()
 template<typename ValType>
 bool TVector<ValType>::operator==(const TVector& tmp) const
 {
-	if (size != tmp.size) return false;
+	if ((size != tmp.size) || (startIndex != tmp.startIndex)) return false;
 	for (int i = 0; i < size; i++)
 	{
 		if (tmp.elems[i] != elems[i])
@@ -123,7 +123,7 @@ template<typename ValType>
 TVector<ValType> TVector<ValType>::operator+(const TVector& tmp) const
 {
 	TVector<ValType> tmp1(*this);
-	if (size != tmp.size) throw "Different sizes of vectors";
+	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
 	for (int i = 0; i < size; i++)
 	{
 		tmp1.elems[i] += tmp.elems[i];
@@ -146,7 +146,7 @@ template<typename ValType>
 TVector<ValType> TVector<ValType>::operator-(const TVector& tmp) const
 {
 	TVector<ValType> tmp1(*this);
-	if (size != tmp.size) throw "Different sizes of vectors";
+	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
 	for (int i = 0; i < size; i++)
 	{
 		tmp1.elems[i] -= tmp.elems[i];
@@ -169,7 +169,7 @@ template<typename ValType>
 ValType TVector<ValType>::operator*(const TVector& tmp) const
 {
 	TVector<ValType> tmp1(*this);
-	if (size != tmp.size) throw "Different sizes of vectors";
+	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
 	ValType res = 0;
 	for (int i = 0; i < size; i++)
 	{
