@@ -133,6 +133,24 @@ int main()
 	{
 		std::cout << k << std::endl;
 	}
+	std::cout << "The length of Vector1 is ";
+	try
+	{
+		std::cout << Vector1.length() << std::endl;
+	}
+	catch (const char* k)
+	{
+		std::cout << k << std::endl;
+	}
+	std::cout << "The length of Vector2 is ";
+	try
+	{
+		std::cout << Vector2.length() << std::endl;
+	}
+	catch (const char* k)
+	{
+		std::cout << k << std::endl;
+	}
 	std::cout << "Trying to make Matrix3 with -1 size" << std::endl;
 	try
 	{
