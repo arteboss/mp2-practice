@@ -28,7 +28,7 @@ public:
 	int StartIndex() const;
 	void random_vector();
 
-	friend std::ostream & operator<<(std::ostream & out, const TVector<ValType>& tmp)
+	friend std::ostream & operator<<(std::ostream& out, const TVector<ValType>& tmp)
 	{
 		if (tmp.size <= 0) throw "Wrong size of vector";
 		for (int i = 0; i < tmp.size; i++)
@@ -122,8 +122,8 @@ TVector<ValType> TVector<ValType>::operator+(ValType tmp) const
 template<typename ValType>
 TVector<ValType> TVector<ValType>::operator+(const TVector& tmp) const
 {
-	TVector<ValType> tmp1(*this);
 	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
+	TVector<ValType> tmp1(*this);
 	for (int i = 0; i < size; i++)
 	{
 		tmp1.elems[i] += tmp.elems[i];
@@ -145,8 +145,8 @@ TVector<ValType> TVector<ValType>::operator-(ValType tmp) const
 template<typename ValType>
 TVector<ValType> TVector<ValType>::operator-(const TVector& tmp) const
 {
-	TVector<ValType> tmp1(*this);
 	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
+	TVector<ValType> tmp1(*this);
 	for (int i = 0; i < size; i++)
 	{
 		tmp1.elems[i] -= tmp.elems[i];
@@ -168,8 +168,8 @@ TVector<ValType> TVector<ValType>::operator*(ValType tmp) const
 template<typename ValType>
 ValType TVector<ValType>::operator*(const TVector& tmp) const
 {
-	TVector<ValType> tmp1(*this);
 	if ((size != tmp.size) || (startIndex != tmp.startIndex)) throw "Different sizes of vectors";
+	TVector<ValType> tmp1(*this);
 	ValType res = 0;
 	for (int i = 0; i < size; i++)
 	{
@@ -196,12 +196,7 @@ template<typename ValType>
 ValType TVector<ValType>::length() const
 {
 	if (size <= 0) throw "Wrong size of vector";
-	int res = 0;
-	for (int i = 0; i < size; i++)
-	{
-		res += elems[i] * elems[i];
-	}
-	return sqrt(res);
+	return sqrt((*this) * (*this));
 }
 
 template<typename ValType>

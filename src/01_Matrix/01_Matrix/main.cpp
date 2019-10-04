@@ -19,6 +19,17 @@ int main()
 	std::cout << "Vector2" << std::endl << Vector2 << std::endl;
 	VectorERR.random_vector();
 	std::cout << "VectorERR" << std::endl << VectorERR << std::endl;
+	std::cout << "Trying to VectorRes1(Vector1):" << std::endl;
+	try
+	{
+		TVector<double> VectorRes1(Vector1);
+		std::cout << "Success" << std::endl;
+		std::cout << "VectorRes1" << std::endl << VectorRes1 << std::endl;
+	}
+	catch (const char* k)
+	{
+		std::cout << k << std::endl;
+	}
 	std::cout << "Trying to VectorRes = Vector1" << std::endl;
 	try
 	{
@@ -185,6 +196,17 @@ int main()
 	std::cout << "Matrix2" << std::endl << Matrix2 << std::endl;
 	MatrixERR.random_matrix();
 	std::cout << "MatrixERR" << std::endl << MatrixERR << std::endl;
+	std::cout << "Trying to MatrixRes1(Matrix1):" << std::endl;
+	try
+	{
+		TMatrix<double> MatrixRes1(Matrix1);
+		std::cout << "Success" << std::endl;
+		std::cout << "MatrixRes1" << std::endl << MatrixRes1 << std::endl;
+	}
+	catch (const char* k)
+	{
+		std::cout << k << std::endl;
+	}
 	std::cout << "Trying to MatrixRes = Matrix2:" << std::endl;
 	try
 	{
