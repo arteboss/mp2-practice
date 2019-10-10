@@ -6,10 +6,10 @@ int main()
 	double res;
 	cout << "Enter the expression" << endl;
 	getline(cin, line);
-	//cout << line.length() << endl;
 	try
 	{
 		line1 = Postfix::CreatePostfixForm(line);
+		cout << "Postfix form:" << endl;
 		cout << line1 << endl;
 		res = Postfix::Calculate(line1);
 		cout << "The value of this expression is " << res << endl;
