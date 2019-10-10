@@ -34,7 +34,7 @@ string Postfix::CreatePostfixForm(string line)
 	if (TypeCheck(line[0]) > 2) throw "Expression can't start with this symbol";
 	while (line[i] != '\0')
 	{
-		if (line.find_last_of(line[i] != i)) throw "There is two identical operands in the string";
+		if (line.find_last_of(line[i]) != i) throw "There is two identical operands in the string";
 		if (line[i] == ' ')
 		{
 			i++;
