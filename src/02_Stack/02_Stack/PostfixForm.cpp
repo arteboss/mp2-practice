@@ -31,6 +31,7 @@ string Postfix::CreatePostfixForm(string line)
 	TStack<char> Stack1(OperationsCount(line)), Stack2(line.length());
 	size_t i = 0;
 	size_t count = 0;
+	if (TypeCheck(line[0]) > 2) throw "Expression can't start with this symbol";
 	while (line[i] != '\0')
 	{
 		if (line.find_last_of(line[i] != i)) throw "There is two identical operands in the string";
