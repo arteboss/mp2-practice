@@ -5,10 +5,11 @@ using namespace std;
 
 class Postfix
 {
-public:
+private:
 	static int Priority(const char);
 	static int TypeCheck(const char);
 	static int OperationsCount(string);
+public:
 	static string CreatePostfixForm(string);
 	static double Calculate(string);
 };

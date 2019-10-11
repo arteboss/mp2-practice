@@ -12,12 +12,12 @@ private:
 	size_t size;
 	size_t top;
 public:
-	TStack();
+	//TStack();
 	TStack(size_t);
 	TStack(const TStack&);
 	~TStack();
 	void Push(ValType);
-	ValType Pop();
+	void Pop();
 	ValType Top() { return elems[top - 1]; }
 	size_t GetTop() { return top; }
 	bool IsEmpty() const;
@@ -27,12 +27,12 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-template<typename ValType>
+/*template<typename ValType>
 TStack<ValType>::TStack()
 {
 	size = 0;
 	top = 0;
-}
+}*/
 
 template<typename ValType>
 TStack<ValType>::TStack(size_t _size)
@@ -67,10 +67,10 @@ void TStack<ValType>::Push(ValType tmp)
 }
 
 template<typename ValType>
-ValType TStack<ValType>::Pop()
+void TStack<ValType>::Pop()
 {
 	if (IsEmpty()) throw "Stack is empty";
-	return elems[--top];
+	top--;
 }
 
 template<typename ValType>
