@@ -31,7 +31,8 @@ string Postfix::CreatePostfixForm(string line)
 	TStack<char> Stack1(OperationsCount(line)), Stack2(line.length());
 	size_t i = 0;
 	size_t count = 0;
-	if (TypeCheck(line[0]) > 2) throw "Expression can't start with this symbol";
+	if ((TypeCheck(line[0]) == 2) && (line[0] != '(')) throw "Expression can't start with this symbol";
+	if (TypeCheck(line[line.length() - 1]) == 2) throw "Expression can't end with this symbol";
 	while (line[i] != '\0')
 	{
 		if (line[i] == ' ')
@@ -71,9 +72,9 @@ string Postfix::CreatePostfixForm(string line)
 			Stack1.Pop();
 		}
 		else throw "Unacceptable symbol";
-		if (CountRight < CountLeft) throw "There is a non-closed '(' ";
 		i++;
 	}
+	if (CountRight < CountLeft) throw "There is a non-closed '(' ";
 	while (!(Stack1.IsEmpty()))
 	{
 		Stack2.Push(Stack1.Top());
@@ -92,23 +93,21 @@ string Postfix::CreatePostfixForm(string line)
 double Postfix::Calculate(string line)
 {
 	size_t Variables = line.length() - OperationsCount(line);
-	double* mas = new double[Variables];
-	size_t j = 0;
+	double* mas = new double[line.length()];
 	TStack<double> Stack(Variables);
 	size_t i = 0;
 	double a = 0, b = 0;
 	while (line[i] != '\0')
 	{
-		if (TypeCheck(line[i]) == 1)
+		/*if (TypeCheck(line[i]) == 1)
 		{
 			if (line.find_first_of(line[i]) == i)
 			{
 				cout << "Enter the value of " << line[i] << ":" << endl;
-				cin >> mas[j];
+				cin >> mas[i];
 			}
 			Stack.Push(mas[line.find_first_of(line[i])]);
-			j++;
-		}
+		}*///vmesto etogo  2 structuri(1 - 2 peremennie, 2 - massiv pervoi structuri) gde hranyatsa raznie bukvi i ih znacheniya potom v Calculate peredat' postfix formu i zapolnennii massiv potom po nim schitat'
 		else if (TypeCheck(line[i]) == 2)
 		{
 			b = Stack.Top();
