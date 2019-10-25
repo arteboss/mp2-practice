@@ -12,7 +12,6 @@ private:
 	size_t size;
 	size_t top;
 public:
-	//TStack();
 	TStack(size_t);
 	TStack(const TStack&);
 	~TStack();
@@ -26,13 +25,6 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////////
-
-/*template<typename ValType>
-TStack<ValType>::TStack()
-{
-	size = 0;
-	top = 0;
-}*/
 
 template<typename ValType>
 TStack<ValType>::TStack(size_t _size)

@@ -3,6 +3,19 @@
 
 using namespace std;
 
+struct Variable
+{
+	char Name;
+	double Value;
+};
+
+struct Variables
+{
+	Variable* varmas;
+	int size;
+	Variables(int);
+};
+
 class Postfix
 {
 private:
@@ -10,6 +23,7 @@ private:
 	static int TypeCheck(const char);
 	static int OperationsCount(string);
 public:
+	static Variables FillVariables(string);
 	static string CreatePostfixForm(string);
-	static double Calculate(string);
+	static double Calculate(string, Variables);
 };
