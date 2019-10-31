@@ -1,5 +1,11 @@
 #include "PostfixForm.h"
 
+Variables::Variables(int _size)
+{
+	size = _size;
+	varmas = new Variable[size];
+}
+
 int Postfix::Priority(const char s)
 {
 	if ((s == '*') || (s == '/')) return 3;
@@ -23,6 +29,7 @@ int Postfix::OperationsCount(string line)
 		if (TypeCheck(line[i]) == 2) res++;
 	return res;
 }
+
 
 string Postfix::CreatePostfixForm(string line)
 {
@@ -90,24 +97,39 @@ string Postfix::CreatePostfixForm(string line)
 	return res;
 }
 
-double Postfix::Calculate(string line)
+Variables Postfix::FillVariables(string line)
+{
+	Variables mas(line.length() - OperationsCount(line));
+	size_t i = 0, j = 0;
+	while (line[i] != 0)
+	{
+		if (TypeCheck(line[i]) == 1)
+		{
+			if (line.find_first_of(line[i]) == i)
+				mas.varmas[j++].Name = line[i];
+		}
+		i++;
+	}
+	for (size_t l = 0; l < j; l++)
+	{
+		cout << "Enter the value of " << mas.varmas[l].Name << endl;
+		cin >> mas.varmas[l].Value;
+	}
+	return mas;
+}
+
+double Postfix::Calculate(string line, Variables mas)
 {
 	size_t Variables = line.length() - OperationsCount(line);
-	double* mas = new double[line.length()];
 	TStack<double> Stack(Variables);
-	size_t i = 0;
+	size_t i = 0, j = 0;
 	double a = 0, b = 0;
 	while (line[i] != '\0')
 	{
-		/*if (TypeCheck(line[i]) == 1)
+		if (TypeCheck(line[i]) == 1)
 		{
-			if (line.find_first_of(line[i]) == i)
-			{
-				cout << "Enter the value of " << line[i] << ":" << endl;
-				cin >> mas[i];
-			}
-			Stack.Push(mas[line.find_first_of(line[i])]);
-		}*///vmesto etogo  2 structuri(1 - 2 peremennie, 2 - massiv pervoi structuri) gde hranyatsa raznie bukvi i ih znacheniya potom v Calculate peredat' postfix formu i zapolnennii massiv potom po nim schitat'
+			Stack.Push(mas.varmas[j++].Value);
+		}
 		else if (TypeCheck(line[i]) == 2)
 		{
 			b = Stack.Top();
@@ -123,4 +145,3 @@ double Postfix::Calculate(string line)
 	}
 	return Stack.Top();
 }
-
