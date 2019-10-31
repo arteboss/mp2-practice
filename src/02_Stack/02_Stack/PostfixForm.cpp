@@ -30,7 +30,6 @@ int Postfix::OperationsCount(string line)
 	return res;
 }
 
-
 string Postfix::CreatePostfixForm(string line)
 {
 	size_t CountLeft = 0, CountRight = 0;
@@ -50,11 +49,9 @@ string Postfix::CreatePostfixForm(string line)
 		if (TypeCheck(line[i]) == 1)
 		{
 			Stack2.Push(line[i]);
-			if ((TypeCheck(line[i + 1]) == 1)) throw "Two operands in a row";
 		}
 		else if (TypeCheck(line[i]) == 2)
 		{
-			if ((TypeCheck(line[i + 1]) == 2)) throw "Two operators in a row";
 			if ((line[i] != '(') && (!Stack1.IsEmpty()))
 			{
 				while (Priority(Stack1.Top()) >= Priority(line[i]))
