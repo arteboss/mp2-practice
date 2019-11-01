@@ -98,7 +98,7 @@ Variables Postfix::FillVariables(string line)
 {
 	Variables mas(line.length() - OperationsCount(line));
 	size_t i = 0, j = 0;
-	while (line[i] != 0)
+	while (line[i] != '\0')
 	{
 		if (TypeCheck(line[i]) == 1)
 		{
@@ -125,7 +125,8 @@ double Postfix::Calculate(string line, Variables mas)
 	{
 		if (TypeCheck(line[i]) == 1)
 		{
-			Stack.Push(mas.varmas[j++].Value);
+			for (size_t m = 0; m < mas.size; m++)
+				if (mas.varmas[m].Name == line[i]) Stack.Push(mas.varmas[m].Value);
 		}
 		else if (TypeCheck(line[i]) == 2)
 		{
