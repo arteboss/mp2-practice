@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "TList.h"
 template<typename ValType>
 class TStack
@@ -133,7 +134,7 @@ ValType TListStack<ValType>::Top() const
 }
 
 template<typename ValType>
-inline size_t TListStack<ValType>::GetTop() const
+size_t TListStack<ValType>::GetTop() const
 {
 	return elems->First();
 }
@@ -141,7 +142,7 @@ inline size_t TListStack<ValType>::GetTop() const
 template<typename ValType>
 void TListStack<ValType>::Pop()
 {
-	elems->Delete(elems->First()->key);
+	elems->Remove(elems->First()->key);
 }
 
 template<typename ValType>
@@ -153,7 +154,7 @@ bool TListStack<ValType>::IsEmpty() const
 template<typename ValType>
 bool TListStack<ValType>::IsFull() const
 {
-	TList<ValType, ValType>::TNode* temp = new TList<ValType, ValType>::TNode;
+	TNode<ValType, ValType>* temp = new TNode<ValType, ValType>;
 	if (temp == nullptr)
 	{
 		return true;

@@ -29,7 +29,9 @@ private:
 	static int OperationsCount(string);
 public:
 	enum Type
-	{ArrayStack, ListStack};
+	{
+		ArrayStack, ListStack
+	};
 	Postfix(int, size_t);
 	Variables FillVariables(string);
 	string CreatePostfixForm(string);

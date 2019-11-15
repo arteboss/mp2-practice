@@ -5,14 +5,19 @@ int main()
 {
 	string line, line1;
 	double res;
-	cout << "Enter the expression" << endl;
-	getline(cin, line);
+	char type;
 	try
 	{
-		line1 = Postfix::CreatePostfixForm(line);
+		cout << "Enter a type of a stack: 0 - ArrayStack, 1 - ListStack" << endl;
+		cin >> type;
+		getchar();
+		cout << "Enter the expression" << endl;
+		getline(cin, line);
+		Postfix post(type, line.size());
+		line1 = post.CreatePostfixForm(line);
 		cout << "Postfix form:" << endl;
 		cout << line1 << endl;
-		res = Postfix::Calculate(line1, Postfix::FillVariables(line1));
+		res = post.Calculate(line1, post.FillVariables(line1));
 		cout << "The value of this expression is " << res << endl;
 	}
 	catch (const char* k)
