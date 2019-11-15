@@ -1,23 +1,24 @@
 #pragma once
 template<typename TKey, typename TData>
+struct TNode
+{
+	TKey key;
+	TData* pData;
+	TNode* pNext;
+};
+
+template<typename TKey, typename TData>
 class TList
 {
-public:
-	struct TNode
-	{
-		TKey key;
-		TData* pData;
-		TNode* pNext;
-	};
 private:
-	TNode* pFirst;
-	TNode* pNext;
-	TNode* pPrev;
-	TNode* pCurrent;
+	TNode<TKey, TData>* pFirst;
+	TNode<TKey, TData>* pNext;
+	TNode<TKey, TData>* pPrev;
+	TNode<TKey, TData>* pCurrent;
 
 public:
 	TList();
-	TList(const TNode*);
+	TList(const TNode<TKey, TData>*);
 	TList(const TList&);
 	~TList();
 
@@ -28,8 +29,8 @@ public:
 	void InsertAfter(TKey, TKey, TData*);
 	void Remove(TKey);
 
-	TNode* Current();
-	TNode* First();
+	TNode<TKey, TData>* Current();
+	TNode<TKey, TData>* First();
 
 	void Reset();
 	bool IsEnded() const;
@@ -48,7 +49,7 @@ TList<TKey, TData>::TList()
 }
 
 template<typename TKey, typename TData>
-TList<TKey, TData>::TList(const TNode* temp) : TList()
+TList<TKey, TData>::TList(const TNode<TKey, TData>* temp) : TList()
 {
 	if (!temp)
 		return;
@@ -201,13 +202,13 @@ void TList<TKey, TData>::Remove(TKey _key)
 }
 
 template<typename TKey, typename TData>
-typename TList<TKey, TData>::TNode* TList<TKey, TData>::Current()
+TNode<TKey, TData>* TList<TKey, TData>::Current()
 {
 	return pCurrent;
 }
 
 template<typename TKey, typename TData>
-typename TList<TKey, TData>::TNode* TList<TKey, TData>::First()
+TNode<TKey, TData>* TList<TKey, TData>::First()
 {
 	return pFirst;
 }

@@ -84,7 +84,7 @@ string Postfix::CreatePostfixForm(string line)
 		Stack1->Pop();
 	}
 	string res;
-	res.resize(Stack2->GetTop(), 0);
+	//res.resize(Stack2->GetTop(), 0);            убрать геттоп
 	for (string::reverse_iterator j = res.rbegin(); !Stack2->IsEmpty(); j++)
 	{
 		*j = Stack2->Top();
@@ -139,7 +139,7 @@ double Postfix::Calculate(string line, Variables mas)
 	{
 		if (TypeCheck(line[i]) == 1)
 		{
-			for (size_t m = 0; m < mas.size; m++)
+			for (int m = 0; m < mas.size; m++)
 				if (mas.varmas[m].Name == line[i]) Stack3->Push(mas.varmas[m].Value);
 		}
 		else if (TypeCheck(line[i]) == 2)
