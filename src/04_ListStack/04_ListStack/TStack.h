@@ -57,12 +57,6 @@ TArrayStack<ValType>::~TArrayStack()
 }
 
 template<typename ValType>
-TArrayStack<ValType>::~TStack()
-{
-	delete[] elems;
-}
-
-template<typename ValType>
 void TArrayStack<ValType>::Push(ValType tmp)
 {
 	if (IsFull()) throw "Stack is full";
@@ -135,19 +129,19 @@ void TListStack<ValType>::Push(ValType tmp)
 template<typename ValType>
 ValType TListStack<ValType>::Top() const
 {
-	return elems->PFirst->key;
+	return elems->First()->key;
 }
 
 template<typename ValType>
 inline size_t TListStack<ValType>::GetTop() const
 {
-	return elems->pFirst;
+	return elems->First();
 }
 
 template<typename ValType>
 void TListStack<ValType>::Pop()
 {
-	elems->Delete(elems->PFirst->key);
+	elems->Delete(elems->First()->key);
 }
 
 template<typename ValType>
@@ -159,7 +153,7 @@ bool TListStack<ValType>::IsEmpty() const
 template<typename ValType>
 bool TListStack<ValType>::IsFull() const
 {
-	TList<ValType, ValType>::TNode<ValType, ValType>* temp = new TList<ValType, ValType>::TNode<ValType, ValType>;
+	TList<ValType, ValType>::TNode* temp = new TList<ValType, ValType>::TNode;
 	if (temp == nullptr)
 	{
 		return true;

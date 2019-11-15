@@ -3,46 +3,21 @@ template<typename TKey, typename TData>
 class TList
 {
 public:
-	template<typename TKey, typename TData>
 	struct TNode
 	{
 		TKey key;
 		TData* pData;
-		TNode<TKey, TData>* pNext;
-
-		TNode()
-		{
-			key = 0;
-			pData = nullptr;
-			pNext = nullptr;
-		}
-		TNode(TKey _key, TData* _data)
-		{
-			key = _key;
-			if (_data != nullptr)
-				pData = new TData(*_data);
-			else
-				pData = nullptr;
-			pNext = nullptr;
-		}
-		TNode(TNode<TKey, TData>* temp)
-		{
-			key = temp->key;
-			pData = new TData;
-			*pData = *temp->pData;
-			pNext = nullptr;
-		}
+		TNode* pNext;
 	};
-
 private:
-	TNode<TKey, TData>* pFirst;
-	TNode<TKey, TData>* pNext;
-	TNode<TKey, TData>* pPrev;
-	TNode<TKey, TData>* pCurrent;
+	TNode* pFirst;
+	TNode* pNext;
+	TNode* pPrev;
+	TNode* pCurrent;
 
 public:
 	TList();
-	TList(const TNode<TKey, TData>*);
+	TList(const TNode*);
 	TList(const TList&);
 	~TList();
 
@@ -53,8 +28,8 @@ public:
 	void InsertAfter(TKey, TKey, TData*);
 	void Remove(TKey);
 
-	TNode<TKey, TData>* Current();
-	TNode<TKey, TData>* First();
+	TNode* Current();
+	TNode* First();
 
 	void Reset();
 	bool IsEnded() const;
@@ -73,15 +48,15 @@ TList<TKey, TData>::TList()
 }
 
 template<typename TKey, typename TData>
-TList<TKey, TData>::TList(const TNode<TKey, TData>* temp) : TList()
+TList<TKey, TData>::TList(const TNode* temp) : TList()
 {
 	if (!temp)
 		return;
-	pFirst = new TNode<TKey, TData>(temp);
-	TNode<TKey, TData>* node = temp->pNext, *prev = pFirst;
+	pFirst = new TNode(temp);
+	TNode* node = temp->pNext, *prev = pFirst;
 	while (node)
 	{
-		TNode<TKey, TData>* tmp = new TNode<TKey, TData>(node);
+		TNode* tmp = new TNode(node);
 		prev->pNext = tmp;
 		prev = tmp;
 		node = node->pNext;
@@ -94,11 +69,11 @@ TList<TKey, TData>::TList(const TList& temp) : TList()
 {
 	if (!temp.pFirst)
 		return;
-	pFirst = new TNode<TKey, TData>(temp.pFirst);
-	TNode<TKey, TData>* node = temp.pFirst->pNext, *prev = pFirst;
+	pFirst = new TNode(temp.pFirst);
+	TNode* node = temp.pFirst->pNext, *prev = pFirst;
 	while (node)
 	{
-		TNode<TKey, TData>* tmp = new TNode<TKey, TData>(node);
+		TNode* tmp = new TNode(node);
 		prev->pNext = tmp;
 		prev = tmp;
 		node = node->pNext;
@@ -137,7 +112,7 @@ void TList<TKey, TData>::InsertStart(TKey _key, TData* _data)
 {
 	if (pCurrent != pFirst)
 		Reset();
-	TNode<TKey, TData>* node = new TNode<TKey, TData>(_key, _data);
+	TNode* node = new TNode(_key, _data);
 	pFirst = node;
 	node->pNext = pCurrent;
 	pPrev = node;
@@ -149,7 +124,7 @@ void TList<TKey, TData>::InsertEnd(TKey _key, TData* _data)
 {
 	if (pCurrent != pFirst)
 		Reset();
-	TNode<TKey, TData>* node = new TNode<TKey, TData>(_key, _data);
+	TNode* node = new TNode(_key, _data);
 	if (pCurrent == nullptr)
 	{
 		pCurrent = node;
@@ -175,7 +150,7 @@ void TList<TKey, TData>::InsertBefore(TKey _key, TKey temp_key, TData* _data)
 		Next();
 	if (pNext == nullptr && pCurrent->key != _key)
 		throw "The key is not found";
-	TNode<TKey, TData>* node = new TNode<TKey, TData>(temp_key, _data);
+	TNode* node = new TNode(temp_key, _data);
 	if (pFirst == pCurrent)
 	{
 		pFirst = node;
@@ -198,7 +173,7 @@ void TList<TKey, TData>::InsertAfter(TKey _key, TKey temp_key, TData* _data)
 	if ((pNext == nullptr) && (pCurrent->key != _key))
 
 		throw "The key is not found";
-	TNode<TKey, TData>* node = new TNode<TKey, TData>(temp_key, _data);
+	TNode* node = new TNode(temp_key, _data);
 	pCurrent->pNext = node;
 	node->pNext = pNext;
 	Reset();
@@ -223,6 +198,18 @@ void TList<TKey, TData>::Remove(TKey _key)
 	pCurrent = nullptr;
 	if (pFirst != pCurrent)
 		Reset();
+}
+
+template<typename TKey, typename TData>
+typename TList<TKey, TData>::TNode* TList<TKey, TData>::Current()
+{
+	return pCurrent;
+}
+
+template<typename TKey, typename TData>
+typename TList<TKey, TData>::TNode* TList<TKey, TData>::First()
+{
+	return pFirst;
 }
 
 template<typename TKey, typename TData>
@@ -256,16 +243,4 @@ void TList<TKey, TData>::Next()
 		pNext = pNext->pNext;
 	else
 		return;
-}
-
-template<typename TKey, typename TData>
-TList<TKey, TData>::TNode<TKey, TData>* TList<TKey, TData>::Current()
-{
-	return pCurrent;
-}
-
-template<typename TKey, typename TData>
-TList<TKey, TData>::TNode<TKey, TData>* TList<TKey, TData>::First()
-{
-	return pFirst;
 }
