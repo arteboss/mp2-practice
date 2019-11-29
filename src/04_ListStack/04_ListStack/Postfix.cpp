@@ -84,16 +84,16 @@ string Postfix::CreatePostfixForm(string line)
 		Stack1->Pop();
 	}
 	string res;
-	//res.resize(Stack2->GetTop(), 0);            убрать геттоп
-	for (string::reverse_iterator j = res.rbegin(); !Stack2->IsEmpty(); j++)
+	while (!Stack2->IsEmpty())
 	{
-		*j = Stack2->Top();
+		res += Stack2->Top();
 		Stack2->Pop();
 	}
+	reverse(res.rbegin(), res.rend());
 	return res;
 }
 
-Postfix::Postfix(int type, size_t size)
+Postfix::Postfix(int type, int size)
 {
 	switch (type)
 	{

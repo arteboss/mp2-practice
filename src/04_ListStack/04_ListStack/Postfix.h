@@ -32,7 +32,7 @@ public:
 	{
 		ArrayStack, ListStack
 	};
-	Postfix(int, size_t);
+	Postfix(int, int);
 	Variables FillVariables(string);
 	string CreatePostfixForm(string);
 	double Calculate(string, Variables);

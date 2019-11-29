@@ -5,7 +5,7 @@ int main()
 {
 	string line, line1;
 	double res;
-	char type;
+	int type;
 	try
 	{
 		cout << "Enter a type of a stack: 0 - ArrayStack, 1 - ListStack" << endl;
