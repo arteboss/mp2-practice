@@ -8,7 +8,6 @@ public:
 	virtual void Push(ValType) = 0;
 	virtual void Pop() = 0;
 	virtual ValType Top() const = 0;
-	virtual size_t GetTop() const = 0;
 	virtual bool IsEmpty() const = 0;
 	virtual bool IsFull() const = 0;
 };
@@ -17,7 +16,7 @@ template <typename ValType>
 class TArrayStack : public TStack<ValType>
 {
 private:
-	int size;
+	size_t size;
 	int top;
 	ValType* elems;
 public:
@@ -27,7 +26,6 @@ public:
 	void Push(ValType);
 	void Pop();
 	ValType Top() const { return elems[top - 1]; }
-	size_t GetTop() const { return top; }
 	bool IsEmpty() const;
 	bool IsFull() const;
 };
@@ -98,7 +96,6 @@ public:
 	void Push(ValType);
 	void Pop();
 	ValType Top() const;
-	size_t GetTop() const;
 	bool IsEmpty() const;
 	bool IsFull() const;
 };
@@ -112,13 +109,13 @@ TListStack<ValType>::TListStack()
 template<typename ValType>
 TListStack<ValType>::TListStack(const TListStack<ValType> & tmp)
 {
-	elems = tmp;
+	elems = new TList<ValType, ValType>(tmp);
 }
 
 template<typename ValType>
 TListStack<ValType>::~TListStack()
 {
-	delete[] elems;
+	delete elems;
 }
 
 template<typename ValType>
@@ -131,12 +128,6 @@ template<typename ValType>
 ValType TListStack<ValType>::Top() const
 {
 	return elems->First()->key;
-}
-
-template<typename ValType>
-size_t TListStack<ValType>::GetTop() const
-{
-	return elems->First();
 }
 
 template<typename ValType>
@@ -154,10 +145,18 @@ bool TListStack<ValType>::IsEmpty() const
 template<typename ValType>
 bool TListStack<ValType>::IsFull() const
 {
-	TNode<ValType, ValType>* temp = new TNode<ValType, ValType>;
-	if (temp == nullptr)
+	try
+	{
+		TNode<ValType, ValType>* temp = new TNode<ValType, ValType>;
+		if (temp == nullptr)
+		{
+			return true;
+		}
+		delete temp;
+		return false;
+	}
+	catch (...)
 	{
 		return true;
 	}
-	return false;
 }

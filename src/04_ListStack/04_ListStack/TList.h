@@ -5,7 +5,24 @@ struct TNode
 	TKey key;
 	TData* pData;
 	TNode* pNext;
+	TNode();
+	TNode(TKey, TData*);
 };
+
+template<typename TKey, typename TData>
+TNode<TKey, TData>::TNode()
+{
+	pData = nullptr;
+	pNext = nullptr;
+}
+
+template<typename TKey, typename TData>
+TNode<TKey, TData>::TNode(TKey _key, TData* _data)
+{
+	key = _key;
+	pData = new TData;
+}
+
 
 template<typename TKey, typename TData>
 class TList
@@ -105,7 +122,7 @@ TKey TList<TKey, TData>::Search(TKey _key)
 			return pCurrent->key;
 		Next();
 	}
-	throw "The key is not found";
+	return nullptr;
 }
 
 template<typename TKey, typename TData>
@@ -113,7 +130,7 @@ void TList<TKey, TData>::InsertStart(TKey _key, TData* _data)
 {
 	if (pCurrent != pFirst)
 		Reset();
-	TNode* node = new TNode(_key, _data);
+	TNode<TKey, TData>* node = new TNode<TKey, TData>(_key, _data);
 	pFirst = node;
 	node->pNext = pCurrent;
 	pPrev = node;
