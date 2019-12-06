@@ -24,6 +24,7 @@ private:
 	TStack<char>* Stack1;
 	TStack<char>* Stack2;
 	TStack<double>* Stack3;
+
 	static int Priority(const char);
 	static int TypeCheck(const char);
 	static int OperationsCount(string);
@@ -32,7 +33,7 @@ public:
 	{
 		ArrayStack, ListStack
 	};
-	Postfix(int, int);
+	Postfix(int, int stack_size = 0);
 	Variables FillVariables(string);
 	string CreatePostfixForm(string);
 	double Calculate(string, Variables);

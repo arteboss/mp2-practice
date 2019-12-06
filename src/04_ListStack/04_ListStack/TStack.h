@@ -139,7 +139,7 @@ void TListStack<ValType>::Pop()
 template<typename ValType>
 bool TListStack<ValType>::IsEmpty() const
 {
-	return elems->IsEnded();
+	return elems->Current == nullptr;
 }
 
 template<typename ValType>
