@@ -127,19 +127,21 @@ void TListStack<ValType>::Push(ValType tmp)
 template<typename ValType>
 ValType TListStack<ValType>::Top() const
 {
+	if (IsEmpty()) return -1;
 	return elems->First()->key;
 }
 
 template<typename ValType>
 void TListStack<ValType>::Pop()
 {
+	if (IsEmpty()) return;
 	elems->Remove(elems->First()->key);
 }
 
 template<typename ValType>
 bool TListStack<ValType>::IsEmpty() const
 {
-	return elems->Current == nullptr;
+	return elems->Current() == nullptr;
 }
 
 template<typename ValType>
