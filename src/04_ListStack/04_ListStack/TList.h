@@ -198,7 +198,7 @@ void TList<TKey, TData>::InsertAfter(TKey _key, TKey temp_key, TData* _data)
 template<typename TKey, typename TData>
 void TList<TKey, TData>::Remove(TKey _key)
 {
-	TNode < TKey, TData)* tmp1 = pCurrent;
+	TNode < TKey, TData>* tmp1 = pCurrent;
 	if (pCurrent != pFirst)
 		Reset();
 	while (!IsEnded() && (pCurrent->key != _key))
@@ -208,7 +208,6 @@ void TList<TKey, TData>::Remove(TKey _key)
 	if (pCurrent == pFirst)
 	{
 		pFirst = pCurrent->pNext;
-		pNext = pFirst->pNext;
 	}
 	else
 	{
