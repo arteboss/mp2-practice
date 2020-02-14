@@ -31,14 +31,11 @@ public:
 	bool Empty() const;
 	void Next();
 
-	Polynom operator+(Polynom&) const;
-	Polynom operator-(Polynom&) const;
+	Polynom operator+(Polynom&);
+	Polynom operator-(Polynom&);
 	Polynom operator-() const;
-	//Polynom operator*(const Monom&) const;
-	//Polynom operator*(Polynom&) const;
+	Polynom operator*(const Polynom&) const;
 	Polynom& operator=(const Polynom&);
-
-	void Reduce();
 };
 
 
@@ -141,7 +138,6 @@ void Polynom::InsertEnd(int _key, double _data)
 	}
 	pCurrent = node;
 	pPrev->next = node;
-	pNext = nullptr;
 	Reset();
 }
 
@@ -237,7 +233,9 @@ void Polynom::Reset()
 {
 	if (pFirst == nullptr)
 	{
-		pPrev = pCurrent = pNext = nullptr;
+		pPrev = nullptr;
+		pCurrent = nullptr;
+		pNext = nullptr;
 		return;
 	}
 	pCurrent = pFirst;
@@ -263,46 +261,32 @@ void Polynom::Next()
 	if (!pCurrent) return;
 	pPrev = pCurrent;
 	pCurrent = pNext;
-	if (pCurrent != nullptr)
-		pNext = pNext->next;
-	else
-		pNext = nullptr;
+	if (pNext != nullptr)
+	{
+			pNext = pNext->next;
+	}
 }
 
-Polynom Polynom::operator+(Polynom& polynom) const
+Polynom Polynom::operator+(Polynom& polynom)
 {
 	Polynom res = (*this);
-	polynom.Reset();
 	while (!polynom.IsEnded())
 	{
-		if (!res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff += polynom.pCurrent->koeff;
+		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff += polynom.pCurrent->koeff;
 		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
 		polynom.Next();
 	}
-	polynom.Reset();
 	return res;
 }
 
-Polynom Polynom::operator-(Polynom& polynom) const
+Polynom Polynom::operator-(Polynom& polynom)
 {
 	Polynom res = (*this);
-	polynom.Reset();
 	while (!polynom.IsEnded())
 	{
-		if (!res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff -= polynom.pCurrent->koeff;
+		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff -= polynom.pCurrent->koeff;
 		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
 		polynom.Next();
-	}
-	polynom.Reset();
-	return res;
-}
-
-Polynom Polynom::operator-() const
-{
-	Polynom res = (*this);
-	while (!res.IsEnded())
-	{
-		(*res.pCurrent) = -(*res.pCurrent);
 	}
 	return res;
 }
@@ -321,62 +305,4 @@ Polynom& Polynom::operator=(const Polynom& polynom)
 	}
 	Reset();
 	return (*this);
-}
-
-/*Polynom Polynom::operator*(const Monom& monom) const
-{
-	Polynom res = (*this);
-	while (!res.IsEnded())
-	{
-		res.pCurrent-> key += monom.key;
-		res.pCurrent->koeff *= monom.koeff;
-	}
-	
-}*/
-
-/*Polynom Polynom::operator*(Polynom& polynom) const
-{
-	Polynom res = (*this);
-	polynom.Reset();
-	while (!polynom.IsEnded())
-	{
-		pCurrent->key + 
-	}
-}*/
-
-void Polynom::Reduce()
-{
-	Reset();
-	while (!IsEnded())
-	{
-		int f = 0;
-		if (pCurrent->key == 0)
-		{
-			Monom* cur = pCurrent;
-			Next();
-			f = 1;
-			Remove(cur->key);
-		}
-		if (f == 0) Next();
-	}
-	Reset();
-	Polynom tmp = (*this);
-	while (!IsEnded())
-	{
-		tmp.pCurrent = pCurrent->next;
-		while (!tmp.IsEnded())
-		{
-			int f = 0;
-			if (pCurrent->key == tmp.pCurrent->key)
-			{
-				pCurrent->koeff += tmp.pCurrent->koeff;
-				Monom* cur = tmp.pCurrent;
-				tmp.Next();
-				f = 1;
-				tmp.Remove(cur->key);
-			}
-			if (f == 0) tmp.Next();
-		}
-		tmp.Reset();
-	}
 }

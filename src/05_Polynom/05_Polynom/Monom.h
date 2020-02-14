@@ -7,6 +7,7 @@ struct Monom
 	Monom* next;
 
 	Monom();
+	Monom(double);
 	Monom(const Monom*);
 	Monom(int, double, Monom* _next = 0);
 
@@ -15,6 +16,7 @@ struct Monom
 	Monom operator-() const;
 	Monom operator-(const Monom&) const;
 	Monom operator*(const Monom&) const;
+	//Monom operator*(const Polynom&) const;
 
 	int GetXDegree() const { return key / 100; }
 	int GetYDegree() const { return key % 100 / 10; }
@@ -24,6 +26,11 @@ struct Monom
 Monom::Monom()
 {
 	next = nullptr;
+}
+
+Monom::Monom(double k)
+{
+	koeff = k;
 }
 
 Monom::Monom(const Monom* monom)
@@ -44,7 +51,6 @@ Monom& Monom::operator=(const Monom& monom)
 {
 	key = monom.key;
 	koeff = monom.koeff;
-	next = monom.next;
 	return *this;
 }
 
@@ -61,18 +67,18 @@ Monom Monom::operator+(const Monom& monom) const
 
 Monom Monom::operator-() const
 {
-	Monom res;
-	res.key = key;
-	res.next = next;
-	res.koeff = -koeff;
-	return res;
+	return Monom(-koeff);
 }
 
 Monom Monom::operator-(const Monom& monom) const
 {
 	Monom res;
-	if (key == monom.key) res.koeff = koeff - monom.koeff;
-	return res;
+	if (key == monom.key)
+	{
+		res.koeff = koeff - monom.koeff;
+		return res;
+	}
+	else throw "Err in - of monoms";
 }
 
 Monom Monom::operator*(const Monom& monom) const
@@ -88,3 +94,7 @@ Monom Monom::operator*(const Monom& monom) const
 	return res;
 }
 
+//Monom Monom::operator*(const Polynom&) const
+//{
+
+//}
