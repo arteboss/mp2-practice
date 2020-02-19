@@ -73,8 +73,12 @@ Monom Monom::operator-() const
 Monom Monom::operator-(const Monom& monom) const
 {
 	Monom res;
-	if (key == monom.key) res.koeff = koeff - monom.koeff;
-	return res;
+	if (key == monom.key)
+	{
+		res.koeff = koeff - monom.koeff;
+		return res;
+	}
+	else throw "Err in - of monoms";
 }
 
 Monom Monom::operator*(const Monom& monom) const

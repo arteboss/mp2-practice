@@ -233,7 +233,9 @@ void Polynom::Reset()
 {
 	if (pFirst == nullptr)
 	{
-		pPrev = pCurrent = pNext = nullptr;
+		pPrev = nullptr;
+		pCurrent = nullptr;
+		pNext = nullptr;
 		return;
 	}
 	pCurrent = pFirst;
@@ -259,10 +261,10 @@ void Polynom::Next()
 	if (!pCurrent) return;
 	pPrev = pCurrent;
 	pCurrent = pNext;
-	if (pNext->next != nullptr)
-		pNext = pNext->next;
-	else
-		pNext = nullptr;
+	if (pNext != nullptr)
+	{
+			pNext = pNext->next;
+	}
 }
 
 Polynom Polynom::operator+(Polynom& polynom)
@@ -270,7 +272,7 @@ Polynom Polynom::operator+(Polynom& polynom)
 	Polynom res = (*this);
 	while (!polynom.IsEnded())
 	{
-		if (!res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff += polynom.pCurrent->koeff;
+		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff += polynom.pCurrent->koeff;
 		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
 		polynom.Next();
 	}
@@ -282,7 +284,7 @@ Polynom Polynom::operator-(Polynom& polynom)
 	Polynom res = (*this);
 	while (!polynom.IsEnded())
 	{
-		if (!res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff -= polynom.pCurrent->koeff;
+		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff -= polynom.pCurrent->koeff;
 		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
 		polynom.Next();
 	}
