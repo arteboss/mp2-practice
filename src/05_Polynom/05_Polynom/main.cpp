@@ -2,22 +2,163 @@
 
 int main()
 {
+	TList<unsigned int, double> list;
+	list.InsertStart(123, 1);
+	list.InsertEnd(321, -6);
+	list.InsertBefore(321, 234, -1);
+	list.InsertAfter(123, 789, -5);
+	std::cout << list << "\n";
+	Polynom A, C;
+	string PolynomB;
+	unsigned int number = 4;
+	std::cout << "Polynom(list): ";
 	try
 	{
-		Polynom a;
-		a.InsertEnd(123, 2);
-		a.InsertEnd(234, -3);
-		a.InsertEnd(345, 6);
-		Polynom b;
-		b.InsertEnd(123, 2);
-		b.InsertEnd(234, -3);
-		b.InsertEnd(345, 6);
-		Polynom c = a + b;
-		std::cout << c.Search(123)->koeff << std::endl;
+		Polynom F(list);
+		std::cout << F << endl;
 	}
 	catch (const char* k)
 	{
-		std::cout << k << std::endl;
+		std::cout << k << endl;
 	}
-	return 1;
+	std::cout << "Enter polynom A:";
+	try
+	{
+		std::cin >> A;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	std::cout << "Enter polynom B: ";
+	try
+	{
+		getline(cin, PolynomB);
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	Polynom B;
+	try
+	{
+		Polynom G(PolynomB);
+		B = G;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << "Polynom A:" << endl;
+	cout << A << endl;
+	cout << "Polynom B:" << endl;
+	cout << B << endl;
+	cout << "Polynom A * 4:" << endl;
+	cout << A << " * " << number << " = ";
+	try
+	{
+		C = A * number;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout <<  endl;
+	cout << "Polynom A + Polynom B:" << endl;
+	cout << A << " + " << B << " = ";
+	try
+	{
+		C = A + B;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom A - Polynom B:" << endl;
+	cout << A << " - " << B << " = ";
+	try
+	{
+		C = A - B;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom A * Polynom B:" << endl;
+	cout << A << " * " << B << " = ";
+	try
+	{
+		C = A * B;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom A += Polynom B:" << endl;
+	cout << A << " += " << B << " => ";
+	try
+	{
+		A += B;
+		cout << A << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom A -= Polynom B:" << endl;
+	cout << A << " -= " << B << " => ";
+	try
+	{
+		A -= B;
+		cout << A << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom C * Polynom B:" << endl;
+	cout << C << " * " << B << " = ";
+	try
+	{
+		C = C * B;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "PolynomG(PolynomC): ";
+	try
+	{
+		Polynom G(C);
+		cout << G << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	cout << "Polynom C *= Polynom C:" << endl;
+	cout << C << " *= " << C << " => ";
+	try
+	{
+		C *= C;
+		cout << C << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
+	cout << endl;
+	system("pause");
 }

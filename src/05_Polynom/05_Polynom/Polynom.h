@@ -1,308 +1,97 @@
 #pragma once
 #include "Monom.h"
-#include <iostream>
+#include "TList.h"
+#include <string>
 
 class Polynom
 {
-private:
-	Monom* pFirst;
-	Monom* pNext;
-	Monom* pPrev;
-	Monom* pCurrent;
+	TList<unsigned int, double>* pMonom;
+
+	void Reduce();
+	void Validation();
 
 public:
 	Polynom();
-	Polynom(const Monom*);
+	Polynom(const string&);
+	Polynom(const TList<unsigned int, double>&);
+	Polynom(const TNode<unsigned int, double>&);
 	Polynom(const Polynom&);
 	~Polynom();
 
-	Monom* Search(int);
-	void InsertStart(int, double);
-	void InsertEnd(int, double);
-	void InsertBefore(int, int, double);
-	void InsertAfter(int, int, double);
-	void Remove(int);
-
-	Monom* Current();
-	Monom* First();
-
-	void Reset();
-	bool IsEnded() const;
-	bool Empty() const;
-	void Next();
-
-	Polynom operator+(Polynom&);
-	Polynom operator-(Polynom&);
-	Polynom operator-() const;
+	Polynom operator*(double) const;
+	Polynom operator+(const TNode<unsigned int, double>&) const;
+	Polynom operator-(const TNode<unsigned int, double>&) const;
+	Polynom operator*(const TNode<unsigned int, double>&) const;
+	Polynom operator+(const Polynom&) const;
+	Polynom operator-(const Polynom&) const;
 	Polynom operator*(const Polynom&) const;
 	Polynom& operator=(const Polynom&);
+	bool operator==(const Polynom&) const;
+	Polynom& operator+=(const Polynom&);
+	Polynom& operator-=(const Polynom&);
+	Polynom& operator*=(const Polynom&);
+
+	friend std::ostream& operator<<(std::ostream& out, const Polynom& temp)
+	{
+		int x = 0, y = 0, z = 0, degree = 0, firstdegree = 0;
+		double coeff = 0;
+		temp.pMonom->Reset();
+		if (temp.pMonom->IsEnded())
+		{
+			out << "0";
+			return out;
+		}
+		firstdegree = temp.pMonom->First()->GetKey();
+		while (!temp.pMonom->IsEnded())
+		{
+			degree = temp.pMonom->Current()->GetKey();
+			coeff = temp.pMonom->Current()->GetData();
+			x = degree / 100;
+			y = degree % 100 / 10;
+			z = degree % 10;
+			if (coeff > 0)
+			{
+				if (degree != firstdegree)
+					out << "+ ";
+				if (coeff != 1 || degree == 0)
+					out << coeff << " ";
+			}
+			else if (coeff < 0)
+			{
+				if (coeff == -1 && degree != 0)
+					out << "- ";
+				else
+					out << coeff << " ";
+			}
+			if (x != 0 || y != 0 || z != 0)
+			{
+				if (x > 1)
+					out << "x^" <<  x << " ";
+				else if (x == 1)
+					out << "x" << " ";
+				if (y > 1)
+					out << "y^" << y << " ";
+				else if (y == 1)
+					out << "y" << " ";
+				if (z > 1)
+					out << "z^" << z << " ";
+				else if (z == 1)
+					out << "z" << " ";
+			}
+			temp.pMonom->Next();
+		}
+		return out;
+	}
+	friend std::istream& operator>>(std::istream& in, Polynom& temp)
+	{
+		string strf;
+		getline(in, strf);
+		if (temp.pMonom)
+		{
+			delete temp.pMonom;
+			temp.pMonom = new  TList<unsigned int, double>;
+		}
+			temp = strf;
+		return in;
+	}
 };
-
-
-
-Polynom::Polynom()
-{
-	pCurrent = nullptr;
-	pFirst = nullptr;
-	pPrev = nullptr;
-	pNext = nullptr;
-}
-
-
-Polynom::Polynom(const Monom* temp) : Polynom()
-{
-	if (!temp)
-		return;
-	pFirst = new Monom(temp);
-	Monom* node = temp->next, *prev = pFirst;
-	while (node)
-	{
-		Monom* tmp = new Monom(node);
-		prev->next = tmp;
-		prev = tmp;
-		node = node->next;
-	}
-	Reset();
-}
-
-
-Polynom::Polynom(const Polynom& temp) : Polynom()
-{
-	if (!temp.pFirst)
-		return;
-	pFirst = new Monom(temp.pFirst);
-	Monom* node = temp.pFirst->next, *prev = pFirst;
-	while (node)
-	{
-		Monom* tmp = new Monom(node);
-		prev->next = tmp;
-		prev = tmp;
-		node = node->next;
-	}
-	Reset();
-}
-
-
-Polynom::~Polynom()
-{
-	if (pCurrent != pFirst)
-		Reset();
-	while (!IsEnded())
-	{
-		Next();
-		delete pPrev;
-	}
-}
-
-
-Monom* Polynom::Search(int _key)
-{
-	if (pCurrent != pFirst)
-		Reset();
-	while (!IsEnded())
-	{
-		if (pCurrent->key == _key)
-			return pCurrent;
-		Next();
-	}
-	return nullptr;
-}
-
-
-void Polynom::InsertStart(int _key, double _data)
-{
-	if (pCurrent != pFirst)
-		Reset();
-	Monom* node = new Monom(_key, _data, pCurrent);
-	pFirst = node;
-	Reset();
-}
-
-
-void Polynom::InsertEnd(int _key, double _data)
-{
-	if (pCurrent != pFirst)
-		Reset();
-	Monom* node = new Monom(_key, _data);
-	if (pFirst == nullptr)
-	{
-		pCurrent = node;
-		pFirst = node;
-		pPrev = nullptr;
-		pNext = nullptr;
-		return;
-	}
-	while (!IsEnded())
-	{
-		Next();
-	}
-	pCurrent = node;
-	pPrev->next = node;
-	Reset();
-}
-
-
-void Polynom::InsertBefore(int _key, int temp_key, double _data)
-{
-	if (pCurrent != pFirst)
-		Reset();
-	while (!IsEnded() && (pCurrent->key != _key))
-		Next();
-	if (pNext == nullptr && pCurrent->key != _key)
-		throw "The key is not found";
-	Monom* node = new Monom(temp_key, _data);
-	if (pFirst == pCurrent)
-	{
-		pFirst = node;
-		node->next = pCurrent;
-		Reset();
-		return;
-	}
-	pPrev->next = node;
-	node->next = pCurrent;
-	Reset();
-}
-
-
-void Polynom::InsertAfter(int _key, int temp_key, double _data)
-{
-	if (pCurrent != pFirst)
-		Reset();
-	while (!IsEnded() && (pCurrent->key != _key))
-		Next();
-	if (pCurrent == nullptr)
-		throw "The key is not found";
-	Monom* node = new Monom(temp_key, _data, pNext);
-	pCurrent->next = node;
-	Reset();
-}
-
-
-void Polynom::Remove(int _key)
-{
-	Monom* tmp1 = pCurrent;
-	if (pCurrent != pFirst)
-		Reset();
-	while (!IsEnded() && (pCurrent->key != _key))
-		Next();
-	if (pCurrent == nullptr)
-		throw "The key is not found";
-	if (pCurrent == pFirst)
-	{
-		pFirst = pCurrent->next;
-	}
-	else
-	{
-
-		pPrev->next = pCurrent->next;
-		if (pCurrent->next == nullptr)
-		{
-			pNext = nullptr;
-		}
-		else
-		{
-			pNext = pCurrent->next->next;
-		}
-	}
-	if (pCurrent == tmp1)
-	{
-		delete pCurrent;
-		Reset();
-	}
-	else
-	{
-		delete pCurrent;
-		pCurrent = tmp1;
-	}
-}
-
-
-Monom* Polynom::Current()
-{
-	return pCurrent;
-}
-
-
-Monom* Polynom::First()
-{
-	return pFirst;
-}
-
-
-void Polynom::Reset()
-{
-	if (pFirst == nullptr)
-	{
-		pPrev = nullptr;
-		pCurrent = nullptr;
-		pNext = nullptr;
-		return;
-	}
-	pCurrent = pFirst;
-	pPrev = nullptr;
-	pNext = pFirst->next;
-}
-
-
-bool Polynom::IsEnded() const
-{
-	return pCurrent == nullptr;
-}
-
-
-bool Polynom::Empty() const
-{
-	return pFirst == nullptr;
-}
-
-
-void Polynom::Next()
-{
-	if (!pCurrent) return;
-	pPrev = pCurrent;
-	pCurrent = pNext;
-	if (pNext != nullptr)
-	{
-			pNext = pNext->next;
-	}
-}
-
-Polynom Polynom::operator+(Polynom& polynom)
-{
-	Polynom res = (*this);
-	while (!polynom.IsEnded())
-	{
-		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff += polynom.pCurrent->koeff;
-		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
-		polynom.Next();
-	}
-	return res;
-}
-
-Polynom Polynom::operator-(Polynom& polynom)
-{
-	Polynom res = (*this);
-	while (!polynom.IsEnded())
-	{
-		if (res.Search(polynom.pCurrent->key)) res.Search(polynom.pCurrent->key)->koeff -= polynom.pCurrent->koeff;
-		else res.InsertEnd(polynom.pCurrent->key, polynom.pCurrent->koeff);
-		polynom.Next();
-	}
-	return res;
-}
-
-Polynom& Polynom::operator=(const Polynom& polynom)
-{
-	if (!polynom.pFirst) throw "Err";
-	pFirst = new Monom(polynom.pFirst);
-	Monom* node = polynom.pFirst->next, *prev = pFirst;
-	while (node)
-	{
-		Monom* tmp = new Monom(node);
-		prev->next = tmp;
-		prev = tmp;
-		node = node->next;
-	}
-	Reset();
-	return (*this);
-}
