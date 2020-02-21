@@ -70,6 +70,12 @@ TNode<unsigned int, double> TNode<unsigned int, double>::operator*(const TNode& 
 	return res;
 }
 
+TNode<unsigned int, double> TNode<unsigned int, double>::operator-() const
+{
+	TNode<unsigned int, double> res(*this);
+	return(res * (-1.0));
+}
+
 bool TNode<unsigned int, double>::operator>(const TNode& temp) const
 {
 	if (key != temp.key)

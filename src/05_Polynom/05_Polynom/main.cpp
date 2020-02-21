@@ -7,30 +7,33 @@ int main()
 	list.InsertEnd(321, -6);
 	list.InsertBefore(321, 234, -1);
 	list.InsertAfter(123, 789, -5);
-	std::cout << list << "\n";
+	cout << list << endl;
 	Polynom A, C;
 	string PolynomB;
 	unsigned int number = 4;
-	std::cout << "Polynom(list): ";
+	cout << "Polynom(list): ";
 	try
 	{
 		Polynom F(list);
-		std::cout << F << endl;
+		cout << F << endl;
+		cout << "-Polynom" << endl;
+		F = -F;
+		cout << F << endl;
 	}
 	catch (const char* k)
 	{
 		std::cout << k << endl;
 	}
-	std::cout << "Enter polynom A:";
+	cout << "Enter polynom A:";
 	try
 	{
-		std::cin >> A;
+		cin >> A;
 	}
 	catch (const char* k)
 	{
 		cout << k << endl;
 	}
-	std::cout << "Enter polynom B: ";
+	cout << "Enter polynom B: ";
 	try
 	{
 		getline(cin, PolynomB);
@@ -160,5 +163,15 @@ int main()
 		cout << k << endl;
 	}
 	cout << endl;
+	cout << "Polynom A == Polynom B?:" << endl;
+	cout << A << " == " << B << " ? ";
+	try
+	{
+		cout << (A == B) << endl;
+	}
+	catch (const char* k)
+	{
+		cout << k << endl;
+	}
 	system("pause");
 }

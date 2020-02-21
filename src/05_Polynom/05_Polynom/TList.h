@@ -22,7 +22,6 @@ struct TList
 	void Remove(TKey);
 	void Remove(TNode<TKey, TData>*);
 	void DeleteAll();
-	void InsertSort();
 
 	TNode<TKey, TData>* Current();
 	TNode<TKey, TData>* Prev();
@@ -250,29 +249,6 @@ void TList<TKey, TData>::DeleteAll()
 	}
 	pFirst = nullptr;
 	pPrev = nullptr;
-}
-
-template<typename TKey, typename TData>
-void TList<TKey, TData>::InsertSort()
-{
-	if ((pFirst == nullptr) || (pFirst->pNext == nullptr))
-		return;
-	TList<TKey, TData> temp(*this);
-	DeleteAll();
-	TNode<TKey, TData>* node = temp.pFirst, max(*temp.pFirst);
-	while (temp.pFirst)
-	{
-		node = temp.pFirst;
-		while (node)
-		{
-			if (max.key <= node->key)
-				max = *node;
-			node = node->pNext;
-		}
-		InsertEnd(max.key, max.data);
-		temp.Remove(max.key);
-		max.key = 0;
-	}
 }
 
 template<typename TKey, typename TData>

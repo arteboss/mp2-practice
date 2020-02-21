@@ -19,6 +19,7 @@ struct TNode<unsigned int, double>
 	TNode operator-(const TNode&) const;
 	TNode& operator=(const TNode&);
 	TNode operator*(double) const;
+	TNode operator-() const;
 	TNode operator*(const TNode&) const;
 	bool operator>(const TNode&) const;
 	bool operator<(const TNode&) const;

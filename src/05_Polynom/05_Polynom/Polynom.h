@@ -14,9 +14,11 @@ public:
 	Polynom();
 	Polynom(const string&);
 	Polynom(const TList<unsigned int, double>&);
-	Polynom(const TNode<unsigned int, double>&);
+	Polynom(const TNode<unsigned int, double>*);
 	Polynom(const Polynom&);
 	~Polynom();
+
+	void InsertSort();
 
 	Polynom operator*(double) const;
 	Polynom operator+(const TNode<unsigned int, double>&) const;
@@ -25,6 +27,7 @@ public:
 	Polynom operator+(const Polynom&) const;
 	Polynom operator-(const Polynom&) const;
 	Polynom operator*(const Polynom&) const;
+	Polynom operator-() const;
 	Polynom& operator=(const Polynom&);
 	bool operator==(const Polynom&) const;
 	Polynom& operator+=(const Polynom&);
