@@ -23,14 +23,7 @@ Polynom::Polynom(const string& strf) : Polynom()
 		startIndex = i;
 		while (str[i] != 'x' && str[i] != 'y' && str[i] != 'z' && i != str.size())
 		{
-			/*if (!isdigit(str[i]))
-			{
-				startIndex = i;
-				while (!isdigit(str[i]) && (str[i] != 'x') && (str[i] != 'y') && (str[i] != 'z') || (str[i + 1] == '.'))
-					i++;
-				endIndex = i;
-			}
-			else*/ if (str[i + 1] == '+' ||  str[i + 1] == '-')
+			if (str[i + 1] == '+' ||  str[i + 1] == '-')
 			{
 				i++;
 				endIndex = i;
@@ -108,7 +101,7 @@ Polynom::Polynom(const string& strf) : Polynom()
 		pMonom->InsertEnd(degree, coeff);
 	}
 	Reduce();
-	pMonom->InsertSort();
+	InsertSort();/////
 }
 
 Polynom::Polynom(const TList<unsigned int, double>& temp)
@@ -116,15 +109,15 @@ Polynom::Polynom(const TList<unsigned int, double>& temp)
 	pMonom = new TList<unsigned int, double>(temp);
 	Validation();
 	Reduce();
-	pMonom->InsertSort();
+	InsertSort();//////
 }
 
-Polynom::Polynom(const TNode<unsigned int, double>& temp)
+Polynom::Polynom(const TNode<unsigned int, double>* temp)
 {
-	pMonom = new TList<unsigned int, double>(&temp);
+	pMonom = new TList<unsigned int, double>(temp);
 	Validation();
 	Reduce();
-	pMonom->InsertSort();
+	InsertSort();//////
 }
 
 Polynom::Polynom(const Polynom& temp)
@@ -135,6 +128,30 @@ Polynom::Polynom(const Polynom& temp)
 Polynom::~Polynom()
 {
 	delete pMonom;
+}
+
+void Polynom::InsertSort()
+{
+	{
+		if ((pMonom->pFirst == nullptr) || (pMonom->pFirst->pNext == nullptr))
+			return;
+		Polynom temp(*this);
+		pMonom->DeleteAll();
+		TNode<unsigned int, double>* node = temp.pMonom->pFirst, max(*temp.pMonom->pFirst);
+		while (temp.pMonom->pFirst)
+		{
+			node = temp.pMonom->pFirst;
+			while (node)
+			{
+				if (max.key <= node->key)
+					max = *node;
+				node = node->pNext;
+			}
+			pMonom->InsertEnd(max.key, max.data);
+			temp.pMonom->Remove(max.key);
+			max.key = 0;
+		}
+	}
 }
 
 void Polynom::Validation()
@@ -224,7 +241,7 @@ Polynom Polynom::operator+(const TNode<unsigned int, double>& temp) const
 Polynom Polynom::operator-(const TNode<unsigned int, double>& temp) const
 {
 	Polynom result;
-	result = *this + (temp * (-1.0));
+	result = *this + (-temp); // unary minus
 	return result;
 }
 
@@ -254,15 +271,15 @@ Polynom Polynom::operator+(const Polynom& temp) const
 		result = result + *other.pMonom->Current();
 		other.pMonom->Next();
 	}
-	result.Reduce();
-	result.Validation();
+	//result.Reduce(); //////!!!
+	//result.Validation();////////!!!!!
 	return result;
 }
 
 Polynom Polynom::operator-(const Polynom& temp) const
 {
 	Polynom result;
-	result = *this + (temp * (-1.0));
+	result = *this + (-temp);// unary minus
 	return result;
 }
 
@@ -276,9 +293,15 @@ Polynom Polynom::operator*(const Polynom& temp) const
 		result = result + other;
 		tmp.pMonom->Next();
 	}
-	result.Reduce();
-	result.Validation();
+	//result.Reduce();//////!!!
+	//result.Validation();//////!!!
 	return result;
+}
+
+Polynom Polynom::operator-() const
+{
+	Polynom res(*this);
+	return(res * (-1.0));
 }
 
 bool Polynom::operator==(const Polynom& temp) const
@@ -308,7 +331,7 @@ Polynom& Polynom::operator=(const Polynom& temp)
 		pMonom->InsertEnd(temp.pMonom->Current()->key, temp.pMonom->Current()->data);
 		temp.pMonom->Next();
 	}
-	pMonom->InsertSort();
+	InsertSort();/**/
 	return *this;
 }
 
