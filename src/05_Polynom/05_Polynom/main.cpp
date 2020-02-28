@@ -8,7 +8,7 @@ int main()
 	list.InsertBefore(321, 234, -1);
 	list.InsertAfter(123, 789, -5);
 	cout << list << endl;
-	Polynom A, C;
+	Polynom A,C;
 	string PolynomB;
 	unsigned int number = 4;
 	cout << "Polynom(list): ";

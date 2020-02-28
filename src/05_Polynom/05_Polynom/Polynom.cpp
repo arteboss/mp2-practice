@@ -238,7 +238,7 @@ Polynom Polynom::operator+(const TNode<unsigned int, double>& temp) const
 	return result;
 }
 
-Polynom Polynom::operator-(const TNode<unsigned int, double>& temp) const
+Polynom Polynom::operator-(const TNode<unsigned int, double>& temp) const///2+y-2z+x^2y//-2+5x^2y+z-yz+x^2yz
 {
 	Polynom result;
 	result = *this + (-temp); // unary minus
@@ -271,8 +271,8 @@ Polynom Polynom::operator+(const Polynom& temp) const
 		result = result + *other.pMonom->Current();
 		other.pMonom->Next();
 	}
-	//result.Reduce(); //////!!!
-	//result.Validation();////////!!!!!
+	result.Reduce(); //////!!!
+	result.Validation();////////!!!!!
 	return result;
 }
 
@@ -293,8 +293,8 @@ Polynom Polynom::operator*(const Polynom& temp) const
 		result = result + other;
 		tmp.pMonom->Next();
 	}
-	//result.Reduce();//////!!!
-	//result.Validation();//////!!!
+	//result.Reduce();
+	//result.Validation();
 	return result;
 }
 
