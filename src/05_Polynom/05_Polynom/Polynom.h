@@ -9,6 +9,7 @@ class Polynom
 
 	void Reduce();
 	void Validation();
+	void InsertSort();
 
 public:
 	Polynom();
@@ -18,7 +19,7 @@ public:
 	Polynom(const Polynom&);
 	~Polynom();
 
-	void InsertSort();
+	//void InsertSort();
 
 	Polynom operator*(double) const;
 	Polynom operator+(const TNode<unsigned int, double>&) const;

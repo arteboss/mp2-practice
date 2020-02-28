@@ -78,16 +78,16 @@ TNode<unsigned int, double> TNode<unsigned int, double>::operator-() const
 
 bool TNode<unsigned int, double>::operator>(const TNode& temp) const
 {
-	if (key != temp.key)
+	//if (key != temp.key)
 		return key > temp.key;
-	else return data > temp.data;
+	//else return data > temp.data;
 }
 
 bool TNode<unsigned int, double>::operator<(const TNode& temp) const
 {
-	if (key != temp.key)
+	//if (key != temp.key)
 		return key < temp.key;
-	else return data < temp.data;
+	//else return data < temp.data;
 }
 
 bool TNode<unsigned int, double>::operator==(const TNode& temp) const
